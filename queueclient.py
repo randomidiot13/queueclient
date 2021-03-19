@@ -4,7 +4,6 @@ from configparser import ConfigParser
 import json
 import datetime
 import webbrowser
-import verifclient
 import pip
 
 def pinstall(package):
@@ -320,6 +319,7 @@ def edit_working_queue():
     refresh_queue()
 
 def open_verifclient():
+    import verifclient
     client = verifclient.VerifClient(log)
 
 beta_queue = sorted(get_queue(GAME), key = lambda run: (run['date'], run['submitted']))
