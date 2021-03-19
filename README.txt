@@ -37,7 +37,7 @@ The options.txt file includes a few settings:
 - stay_on_top
   | Defaults to "false". If this variable is set to either "true", "yes", or
     "1", case-insensitive, then QueueClient will always stay on top of other
-    windows, even without focus. Note that VerifClient has no such setting, but
-    will always stay on top nonetheless.
+    windows, even without focus. Note that VerifClient and run examination
+    windows will always stay on top, regardless of what this is set to.
 - gamma
   | Defaults to "1". Whatever you do, don't put this value above 5.
