@@ -13,31 +13,31 @@ The versions used in this distribution are:
 
 QueueClient's dependencies:
 - requests
-  | This should automatically download if you do not have it installed. If the
+    This should automatically download if you do not have it installed. If the
     automatic installation fails, install it via "pip install requests".
 - verifclient
-  | Bundled in.
+    Bundled in.
 
 VerifClient's dependencies:
 - fixedint
-  | This should automatically download if you do not have it installed. If the
+    This should automatically download if you do not have it installed. If the
     automatic installation fails, install it via "pip install fixedint".
 
 The options.txt file includes a few settings:
 - game
-  | Defaults to "mc". This is the game that the client will attempt to fetch the
+    Defaults to "mc". This is the game that the client will attempt to fetch the
     queue of. Currently, the only accepted values are "mc" and "mcce",
     case-insensitive; any other value will raise ValueError.
 - api_key
-  | Defaults to "null". This is the user's speedrun.com API key, which may be
+    Defaults to "null". This is the user's speedrun.com API key, which may be
     found under the "API Key" tab at https://www.speedrun.com/settings. This key
     will be used to verify and reject runs. The client may still be used with an
     API key without sufficient permissions, but verifying and rejecting runs
     will return 403 Forbidden.
 - stay_on_top
-  | Defaults to "false". If this variable is set to either "true", "yes", or
+    Defaults to "false". If this variable is set to either "true", "yes", or
     "1", case-insensitive, then QueueClient will always stay on top of other
     windows, even without focus. Note that VerifClient and run examination
     windows will always stay on top, regardless of what this is set to.
 - gamma
-  | Defaults to "1". Whatever you do, don't put this value above 5.
+    Defaults to "1". Whatever you do, don't put this value above 5.
