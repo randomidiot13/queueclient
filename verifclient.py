@@ -64,20 +64,11 @@ def str_time(seconds, milliseconds = 0):
     minutes, seconds = divmod(seconds, 60)
     hours, minutes = divmod(minutes, 60)
     if hours != 0:
-        if milliseconds:
             return "{0}:{1:0>2}:{2:0>2}.{3:0>3}".format(hours, minutes, seconds, milliseconds)
-        else:
-            return "{0}:{1:0>2}:{2:0>2}".format(hours, minutes, seconds)
     elif minutes != 0:
-        if milliseconds:
             return "{0}:{1:0>2}.{2:0>3}".format(minutes, seconds, milliseconds)
-        else:
-            return "{0}:{1:0>2}".format(minutes, seconds)
     elif seconds != 0:
-        if milliseconds:
             return "{0}.{1:0>3}".format(seconds, milliseconds)
-        else:
-            return "0:{0:0>2}".format(seconds)
     else:
         return "0.{0:0>3}".format(milliseconds)
 
