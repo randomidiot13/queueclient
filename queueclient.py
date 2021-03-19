@@ -256,6 +256,7 @@ class Run:
     def examine(self):
         self.popup = Tk()
         self.popup.title("Run Examination")
+        self.popup.wm_attributes("-topmost", 1)
         self.examine_header = Label(self.popup, text = "Examining Run")
         self.examine_header.grid(row = 0, column = 0)
         self.examine_info = Label(self.popup, wraplength = 1000, justify = LEFT,
