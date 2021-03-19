@@ -1,0 +1,5 @@
+[options]
+game = mc
+api_key = null
+stay_on_top = false
+gamma = 1
