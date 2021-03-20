@@ -26,8 +26,7 @@ VerifClient's dependencies:
 The options.txt file includes a few settings:
 - game
     Defaults to "mc". This is the game that the client will attempt to fetch the
-    queue of. Currently, the only accepted values are "mc" and "mcce",
-    case-insensitive; any other value will raise ValueError.
+    queue of.
 - api_key
     Defaults to "null". This is the user's speedrun.com API key, which may be
     found under the "API Key" tab at https://www.speedrun.com/settings. This key
