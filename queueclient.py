@@ -28,20 +28,9 @@ if float(options['options']['gamma']) > 5:
 ### CONSTANTS ###
 
 HEADER = "https://www.speedrun.com/api/v1/"
-
-MC = "j1npme6p"
-MCCE = "nd2e9erd"
-
 OFFSET_LIMIT = 20
 
 #################
-
-if game_str.lower() == 'mc':
-    GAME = MC
-elif game_str.lower() == 'mcce':
-    GAME = MCCE
-else:
-    raise ValueError("Unsupported game (only mc/mcce supported)")
 
 def log(message):
     console.configure(state = NORMAL)
@@ -145,41 +134,46 @@ class Run:
         return cat_map[self.run_object['category']]
 
     @property
+    def level(self):
+        return level_map[self.run_object['level']]
+
+    @property
     def full_category(self):
         subcatvals = [subcat_map[val]
                       for val in self.run_object['values'].values()
                       if val in subcat_map]
-        if len(subcatvals) > 0:
-            return self.category + ' - ' + ', '.join(subcatvals)
+        
+        if self.run_object['level'] is None:
+            main = self.category
         else:
-            return self.category
+            main = self.level
+            subcatvals = [self.category] + subcatvals
+            
+        if len(subcatvals) > 0:
+            return main + ' - ' + ', '.join(subcatvals)
+        else:
+            return main
+            
 
     @property
     def primary_time(self):
-        return str_time(int(self.run_object['times']['primary_t']),
-                        int(self.run_object['times']['primary'][-4:-1]
-                            if '.' in self.run_object['times']['primary']
-                            else 0))
+        return (None if self.run_object['times']['primary'] is None
+                else str_time(*divmod(round(self.run_object['times']['primary_t'] * 1000), 1000)))
 
     @property
     def real_time(self):
-        if self.run_object['times']['realtime'] is None:
-            return None
-        else:
-            return str_time(int(self.run_object['times']['realtime_t']),
-                            int(self.run_object['times']['realtime'][-4:-1]
-                                if '.' in self.run_object['times']['realtime']
-                                else 0))
+        return (None if self.run_object['times']['realtime'] is None
+                else str_time(*divmod(round(self.run_object['times']['realtime_t'] * 1000), 1000)))
+
+    @property
+    def noloads_time(self):
+        return (None if self.run_object['times']['realtime_noloads'] is None
+                else str_time(*divmod(round(self.run_object['times']['realtime_noloads_t'] * 1000), 1000)))
 
     @property
     def ingame_time(self):
-        if self.run_object['times']['ingame'] is None:
-            return None
-        else:
-            return str_time(int(self.run_object['times']['ingame_t']),
-                            int(self.run_object['times']['ingame'][-4:-1]
-                                if '.' in self.run_object['times']['ingame']
-                                else 0))
+        return (None if self.run_object['times']['ingame'] is None
+                else str_time(*divmod(round(self.run_object['times']['ingame_t'] * 1000), 1000)))
 
     @property
     def description(self):
@@ -261,8 +255,12 @@ class Run:
         self.examine_info = Label(self.popup, wraplength = 1000, justify = LEFT,
                                   text = (f"Category: {self.full_category}\n" +
                                           f"Players: {self.players_comma}\n" +
-                                          f"RTA: {self.real_time}\n" +
-                                          f"IGT: {self.ingame_time}\n" +
+                                          (f"RTA: {self.real_time}\n" if 'realtime'
+                                           in game_obj['ruleset']['run-times'] else '') +
+                                          (f"RTA without loads: {self.noloads_time}\n" if 'realtime_noloads'
+                                           in game_obj['ruleset']['run-times'] else '') +
+                                          (f"IGT: {self.ingame_time}\n" if 'ingame'
+                                           in game_obj['ruleset']['run-times'] else '') +
                                           f"{self.var_string}\n" +
                                           f"Description:\n{self.description}"))
         self.examine_info.grid(row = 1, column = 0)
@@ -322,11 +320,15 @@ def open_verifclient():
     import verifclient
     client = verifclient.VerifClient(log)
 
+game_obj = json_from_src(f"games/{game_str}")['data']
+GAME = game_obj['id']
+
 beta_queue = sorted(get_queue(GAME), key = lambda run: (run['date'], run['submitted']))
 queue = [Run(run) for run in beta_queue]
 working_queue = queue
-cat_map = {cat['id']: cat['name'] for cat in continual_data(f"games/{GAME}/categories")}
-variables = continual_data(f"games/{GAME}/variables")
+cat_map = {cat['id']: cat['name'] for cat in json_from_src(f"games/{GAME}/categories")['data']}
+level_map = {level['id']: level['name'] for level in json_from_src(f"games/{GAME}/levels")['data']}
+variables = json_from_src(f"games/{GAME}/variables")['data']
 subcat_map = {}
 for subcat in [var for var in variables if var['is-subcategory']]:
     subcat_map.update({val: subcat['values']['values'][val]['label'] for val in subcat['values']['values']})
@@ -342,7 +344,7 @@ if stay_on_top:
     window.wm_attributes("-topmost", 1)
 
 Label(window, text = "Queue").grid(row = 0, column = 0)
-queue_display = Frame(window, height = 525, width = 725)
+queue_display = Frame(window, height = 525, width = 750)
 queue_display.grid_propagate(0)
 queue_display.grid_columnconfigure(0, weight = 1)
 queue_display.grid_columnconfigure(7, weight = 1)
