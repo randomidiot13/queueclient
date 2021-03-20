@@ -344,7 +344,7 @@ for var in variables:
     var_map.update({val: var['values']['values'][val]['label'] for val in var['values']['values']})
 
 window = Tk()
-window.title("QueueClient v1")
+window.title("QueueClient v1.1")
 
 if stay_on_top:
     window.wm_attributes("-topmost", 1)
