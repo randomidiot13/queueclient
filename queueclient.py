@@ -15,22 +15,25 @@ except:
     pinstall('requests')
     import requests
 
+### CONSTANTS ###
+
+HEADER = "https://www.speedrun.com/api/v1/"
+OFFSET_LIMIT = 20
+TRUE_VALUES = ['true', 'yes', '1']
+
+#################
+
 options = ConfigParser()
 options.read('options.txt')
 
 game_str = options['options']['game']
 API_KEY = options['options']['api_key']
-stay_on_top = options['options']['stay_on_top'].lower() in ['true', 'yes', '1']
+stay_on_top = options['options']['stay_on_top'].lower() in TRUE_VALUES
+sort_by_date = options['options']['sort_by_date'].lower() in TRUE_VALUES
+examine_also_opens = options['options']['examine_also_opens'].lower() in TRUE_VALUES
 
 if float(options['options']['gamma']) > 5:
     raise ValueError("Turn your gamma down idiot")
-
-### CONSTANTS ###
-
-HEADER = "https://www.speedrun.com/api/v1/"
-OFFSET_LIMIT = 20
-
-#################
 
 def log(message):
     console.configure(state = NORMAL)
@@ -153,7 +156,6 @@ class Run:
             return main + ' - ' + ', '.join(subcatvals)
         else:
             return main
-            
 
     @property
     def primary_time(self):
@@ -247,6 +249,8 @@ class Run:
                 self.mark_rejected()
 
     def examine(self):
+        if examine_also_opens:
+            self.open_run()
         self.popup = Tk()
         self.popup.title("Run Examination")
         self.popup.wm_attributes("-topmost", 1)
@@ -323,7 +327,9 @@ def open_verifclient():
 game_obj = json_from_src(f"games/{game_str}")['data']
 GAME = game_obj['id']
 
-beta_queue = sorted(get_queue(GAME), key = lambda run: (run['date'], run['submitted']))
+beta_queue = sorted(get_queue(GAME),
+                    key = lambda run: ((run['date'] if sort_by_date else 1),
+                                       run['submitted']))
 queue = [Run(run) for run in beta_queue]
 working_queue = queue
 cat_map = {cat['id']: cat['name'] for cat in json_from_src(f"games/{GAME}/categories")['data']}
