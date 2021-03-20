@@ -77,7 +77,7 @@ class VerifClient:
         self.log_func = log_func
         
         self.window = Tk()
-        self.window.title("VerifClient v2.1")
+        self.window.title("VerifClient v2.2")
         self.window.wm_attributes("-topmost", 1)
 
         Label(self.window, text = "Rejection Messages").grid(row = 0, column = 0, columnspan = 7)
@@ -86,7 +86,7 @@ class VerifClient:
         Button(self.window, text = "Optifine", command = self.copy_optifine).grid(row = 1, column = 2)
         Button(self.window, text = "NaLiP", command = self.copy_nalip).grid(row = 1, column = 3)
         Button(self.window, text = "F3/Title", command = self.copy_f3).grid(row = 1, column = 4)
-        Button(self.window ,text = "Create", command = self.copy_create).grid(row = 1, column = 5)
+        Button(self.window, text = "Create", command = self.copy_create).grid(row = 1, column = 5)
         Label(self.window, text = "  ").grid(row = 1, column = 6)
         Button(self.window, text = "Sub 20", command = self.copy_files).grid(row = 2, column = 2, sticky = 'news')
         Button(self.window, text = "VOD", command = self.copy_vod).grid(row = 2, column = 3, sticky = 'news')
