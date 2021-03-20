@@ -2,4 +2,6 @@
 game = mc
 api_key = null
 stay_on_top = false
+sort_by_date = true
+examine_also_opens = false
 gamma = 1
