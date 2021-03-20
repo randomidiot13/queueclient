@@ -38,5 +38,13 @@ The options.txt file includes a few settings:
     "1", case-insensitive, then QueueClient will always stay on top of other
     windows, even without focus. Note that VerifClient and run examination
     windows will always stay on top, regardless of what this is set to.
+- sort_by_date
+    Defaults to "true". If this variable is set to either "true", "yes", or "1",
+    case-insensitive, then the queue will be sorted by date, then submission
+    date. Otherwise, the queue will only be sorted by submission date.
+- examine_also_opens
+    Defaults to "false". If this variable is set to either "true", "yes", or
+    "1", case-insensitive, then pressing the "Examine" button will also open the
+    run in your browser, as the "Open" button does.
 - gamma
     Defaults to "1". Whatever you do, don't put this value above 5.
