@@ -9,7 +9,7 @@ submitted in between.
 
 The versions used in this distribution are:
 - QueueClient v1.1.1
-- VerifClient v2.2.1
+- VerifClient v2.3
 
 QueueClient's dependencies:
 - requests
