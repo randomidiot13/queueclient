@@ -77,7 +77,7 @@ class VerifClient:
         self.log_func = log_func
         
         self.window = Tk()
-        self.window.title("VerifClient v2.2")
+        self.window.title("VerifClient v2.2.1")
         self.window.wm_attributes("-topmost", 1)
 
         Label(self.window, text = "Rejection Messages").grid(row = 0, column = 0, columnspan = 7)
