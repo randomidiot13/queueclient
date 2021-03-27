@@ -64,11 +64,11 @@ def str_time(seconds, milliseconds = 0):
     minutes, seconds = divmod(seconds, 60)
     hours, minutes = divmod(minutes, 60)
     if hours != 0:
-            return "{0}:{1:0>2}:{2:0>2}.{3:0>3}".format(hours, minutes, seconds, milliseconds)
+        return "{0}:{1:0>2}:{2:0>2}.{3:0>3}".format(hours, minutes, seconds, milliseconds)
     elif minutes != 0:
-            return "{0}:{1:0>2}.{2:0>3}".format(minutes, seconds, milliseconds)
+        return "{0}:{1:0>2}.{2:0>3}".format(minutes, seconds, milliseconds)
     elif seconds != 0:
-            return "{0}.{1:0>3}".format(seconds, milliseconds)
+        return "{0}.{1:0>3}".format(seconds, milliseconds)
     else:
         return "0.{0:0>3}".format(milliseconds)
 
@@ -100,17 +100,14 @@ class VerifClient:
         self.fps_field = Entry(self.window, width = 5, justify = CENTER)
         self.fps_field.grid(row = 5, column = 4)
 
-        self.startV = StringVar()
-        self.endV = StringVar()
-
         Label(self.window, text = "Start").grid(row = 6, column = 1)
-        self.start_field = Entry(self.window, width = 20, textvariable = self.startV)
+        self.start_field = Entry(self.window, width = 20)
         self.start_field.grid(row = 6, column = 2, columnspan = 3)
         self.start_time = Label(self.window, text = "0.000")
         self.start_time.grid(row = 6, column = 5)
 
         Label(self.window, text = "End").grid(row = 7, column = 1)
-        self.end_field = Entry(self.window, width = 20, textvariable = self.endV)
+        self.end_field = Entry(self.window, width = 20)
         self.end_field.grid(row = 7, column = 2, columnspan = 3)
         self.end_time = Label(self.window, text = "0.000")
         self.end_time.grid(row = 7,column = 5)
@@ -120,11 +117,9 @@ class VerifClient:
         self.final_time.grid(row = 8, column = 2, columnspan = 3)
         Button(self.window, text = "Clear", command = self.reset_time_fields).grid(row = 8, column = 5)
 
-        self.seedV = StringVar()
-
         Label(self.window, text = "").grid(row = 9, column = 0)
         Label(self.window, text = "Seed Tester").grid(row = 10, column = 0, columnspan = 7)
-        self.seed_field = Entry(self.window, width = 25, textvariable = self.seedV)
+        self.seed_field = Entry(self.window, width = 25)
         self.seed_field.grid(row = 11, column = 1, columnspan = 5)
         Button(self.window, text = "Test", command = self.seed_field_test, width = 7).grid(row = 12, column = 1)
         self.seed_result = Label(self.window, width = 15, text = "-")
@@ -180,13 +175,15 @@ class VerifClient:
             milliseconds = round(frames / fps * 1000)
 
             self.final_time.configure(text = str_time(seconds, milliseconds))
+            self.final_time.configure(bg = 'SystemButtonFace')
         except Exception as e:
             self.final_time.configure(text = "Error, check console")
+            self.final_time.configure(bg = 'yellow2')
             self.log_func(f"Error: {e}")
 
     def reset_time_fields(self):
-        self.endV.set("")
-        self.startV.set("")
+        self.end_field.delete(0, END)
+        self.start_field.delete(0, END)
 
     def seed_field_test(self):
         try:
@@ -198,10 +195,11 @@ class VerifClient:
                 self.seed_result.configure(bg = 'IndianRed1')
         except Exception as e:
             self.seed_result.configure(text = "Error, check console")
+            self.seed_result.configure(bg = 'yellow2')
             self.log_func(f"Error: {e}")
 
     def reset_seed_field(self):
-        self.seedV.set("")
+        self.seed_field.delete(0, END)
         self.seed_result.configure(text = "-")
         self.seed_result.configure(bg = 'SystemButtonFace')
 
