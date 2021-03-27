@@ -25,7 +25,7 @@ TRUE_VALUES = ['true', 'yes', '1']
 #################
 
 options = ConfigParser()
-options.read(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'options.txt')
+options.read(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'options.txt'))
 
 game_str = options['options']['game']
 API_KEY = options['options']['api_key']
