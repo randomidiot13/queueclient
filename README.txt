@@ -8,8 +8,8 @@ time will return the same queue, even if runs were verified, rejected, or
 submitted in between.
 
 The versions used in this distribution are:
-- QueueClient v1.1
-- VerifClient v2.2
+- QueueClient v1.1.1
+- VerifClient v2.2.1
 
 QueueClient's dependencies:
 - requests
