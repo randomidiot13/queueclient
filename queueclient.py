@@ -180,7 +180,8 @@ class Run:
 
     @property
     def description(self):
-        return self.run_object['comment'].replace('\r\n', '\n')
+        return (None if self.run_object['comment'] is None
+                else self.run_object['comment'].replace('\r\n', '\n'))
 
     @property
     def var_string(self):
