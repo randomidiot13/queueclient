@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import scrolledtext as st
 from configparser import ConfigParser
+import os
 import json
 import datetime
 import webbrowser
@@ -24,7 +25,7 @@ TRUE_VALUES = ['true', 'yes', '1']
 #################
 
 options = ConfigParser()
-options.read('options.txt')
+options.read(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'options.txt')
 
 game_str = options['options']['game']
 API_KEY = options['options']['api_key']
